@@ -16,6 +16,8 @@ export const useStudentStore = defineStore('students', () => {
         // make an API request to get all students and save in store - studentList
         studentAPI.get().then( student => { // students is the JSON response from the API
             sortedStudents.value = student
+        }).catch( err => {
+            console.log(err)
         })
     }
 
@@ -31,10 +33,23 @@ export const useStudentStore = defineStore('students', () => {
 
     function deleteStudent(studentToDelete) { // TODO make api request
         // TODO make api request
+        const deleteStudentAPI = mande(`/api/students/${studentToDelete.id}`)
+        deleteStudentAPI.delete().then( () => {
+            mostRecentStudent.value = {}
+            getAllStudents()
+        }).catch( err => {
+            console.log(err)
+        })
     }
 
     function arrivedOrLeft(student) {
         // todo make api request
+        const editStudentAPI = mande(`/api/students/${student.id}`)
+        editStudentAPI.patch(student).then( () => {
+            getAllStudents()
+        }).catch( err => {
+            console.log(err)
+        })
     }
 
     const studentCount = computed( () => {
