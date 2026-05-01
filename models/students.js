@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                notEmpty: false
+                notEmpty: true
             }
         },
         starID: {
@@ -14,14 +14,14 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             unique: true,
             validate: {
-                notEmpty: false
+                notEmpty: true
             }
             // TODO future = Check for aa1234aa format
         },
         present: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
-            default: false
+            defaultValue: false
         }
     })
 
