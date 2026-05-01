@@ -7,43 +7,44 @@ const studentAPI = mande('api/students')
 // arrow notation takes the output of the function and feeds it into the '()' of the object that calls it
 export const useStudentStore = defineStore('students', () => {
 
-    const studentList = ref([
-        {name: 'A. Student', starID: 'aa1234aa', present: false}, //array of dicts to store each student and their status
-        {name: 'B. Student', starID: 'bb1234bb', present: false}
-    ])
-
+    const sortedStudents = ref([])
     const mostRecentStudent = ref( {} ) // empty object
+
+    const addNewStudentErrors = ref ({})
 
     function getAllStudents() {
         // make an API request to get all students and save in store - studentList
         studentAPI.get().then( student => { // students is the JSON response from the API
-            studentList.value = student
+            sortedStudents.value = student
         })
     }
 
     function addNewStudent(student) {
-        studentList.value.push(student)
-    }
-
-    function deleteStudent(studentToDelete) {
-        studentList.value = studentList.value.filter( (student) => {
-            return studentToDelete != student
+        // make api call to to add a new student
+        // call getAllStudents to re-request the list of students from the api server
+        studentAPI.post(student).then ( () => {
+            getAllStudents()
+        }).catch( err => {
+            addNewStudentErrors.value = err.body
         })
     }
 
-    const sortedStudents = computed( () => {
-        return studentList.value.toSorted( (s1, s2) => {
-            return s1.name.localeCompare(s2.name)
-        })
-    })
+    function deleteStudent(studentToDelete) { // TODO make api request
+        // TODO make api request
+    }
+
+    function arrivedOrLeft(student) {
+        // todo make api request
+    }
 
     const studentCount = computed( () => {
-        return studentList.value.length
+        return sortedStudents.value.length
     })
 
     return { // the below returned data can be accessed by the parent or other components.
         // reactive data
-        studentList,
+        sortedStudents,
+        addNewStudentErrors,
         mostRecentStudent,
 
         // functions
@@ -52,7 +53,7 @@ export const useStudentStore = defineStore('students', () => {
         deleteStudent,
 
         // compute properties
-        sortedStudents,
+
         studentCount,
     }
 })

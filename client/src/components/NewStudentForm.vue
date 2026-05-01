@@ -1,7 +1,8 @@
 <script setup>
 // Code goes here
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { useStudentStore } from '../stores/StudentsStore'
+import { storeToRefs } from 'pinia'
 
 const studentStore = useStudentStore()
 
@@ -9,6 +10,14 @@ const newStudentName = ref('')
 const newStarID = ref('')
 
 const formErrors = ref([])
+
+const { addNewStudentErrors } = storeToRefs(studentStore)
+
+watch( addNewStudentErrors, () => {
+    if ( addNewStudentErrors.value && addNewStudentErrors.value.length > 0) {
+        alert(addNewStudentErrors.value.join('\n'))
+    }
+})
 
 function addStudent() {
 

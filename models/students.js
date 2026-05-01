@@ -3,13 +3,25 @@ module.exports = (sequelize, DataTypes) => {
     const Student = sequelize.define('Student', {
         // define columns in db
         name: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: false,
+            validata: {
+                notEmpty: false
+            }
         },
         starID: {
-            type: DataTypes.STRING
+            type: DataTypes.STRING,
+            allowNull: 'false',
+            unique: true,
+            validate: {
+                notEmpty: false
+            }
+            // TODO future = Check for aa1234aa format
         },
         present: {
-            type: DataTypes.BOOLEAN
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            default: false
         }
     })
 
