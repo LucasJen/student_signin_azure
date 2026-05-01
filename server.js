@@ -4,9 +4,9 @@ const apiRoutes = require('./routes/api')
 // create web application server
 const app = express()
 
-app.use(express.json)
+app.use(express.json())
 
-app.unsubscribe('/api', apiRoutes)
+app.use('/api', apiRoutes)
 
 // start server
 const server = app.listen(process.env.PORT || 3000, function() {

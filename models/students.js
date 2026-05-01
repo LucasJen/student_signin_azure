@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     })
 
     // create or update a table
-    Student.sync( {force: true} ).then( () => {
+    Student.sync( {force: false} ).then( () => {
         console.log('Synced student table')
     })
 

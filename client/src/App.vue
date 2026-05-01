@@ -2,10 +2,20 @@
 
 <script setup>
 // Code goes here
+import { onMounted } from 'vue'
 
 import NewStudentForm from './components/NewStudentForm.vue';
 import StudentTable from './components/StudentTable.vue';
 import StudentMessage from './components/StudentMessage.vue';
+
+import { useStudentStore } from './stores/StudentsStore';
+
+const studentStore = useStudentStore()
+
+onMounted ( () => {
+  // what is in here will run when the component is first displayed
+  studentStore.getAllStudents()
+})
 
 
 
